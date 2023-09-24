@@ -1,5 +1,6 @@
 package org.bohdan.springcore.controllers;
 
+import org.bohdan.springcore.dao.BookDao;
 import org.bohdan.springcore.dao.PersonDao;
 import org.bohdan.springcore.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/people")
 public class PeopleController {
     private final PersonDao personDao;
+    private final BookDao bookDao;
 
     @Autowired
-    public PeopleController(PersonDao personDao) {
+    public PeopleController(PersonDao personDao, BookDao bookDao) {
         this.personDao = personDao;
+        this.bookDao = bookDao;
     }
 
     @GetMapping
@@ -24,8 +27,7 @@ public class PeopleController {
     }
 
     @GetMapping("/new")
-    public String createNewPersonPage(Model model, @ModelAttribute("person") Person person) {
-        //model.addAttribute("person", new Person());
+    public String createNewPersonPage(@ModelAttribute("person") Person person) {
         return "people/new";
     }
 
@@ -38,6 +40,7 @@ public class PeopleController {
     @GetMapping("{id}")
     public String showPersonProfile(@PathVariable(name = "id") int id, Model model) {
         model.addAttribute("person", personDao.getPersonById(id));
+        model.addAttribute("books", bookDao.getPersonBooks(id));
         return "people/profile";
     }
 
