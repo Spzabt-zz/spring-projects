@@ -11,7 +11,7 @@
 <br/>
 <div th:if="${book.getPersonId() == null}">
     <p>This book is free. Who do you want to give it to?</p>
-    <form th:method="POST" th:action="@{/books/assign-book(bookId=${book.getId()})}">
+    <form th:method="PATCH" th:action="@{/books/assign-book(bookId=${book.getId()})}">
         <label for="person">Pick a person: </label>
         <select th:object="${person}" th:field="*{id}" id="person">
             <option th:each="person : ${people}" th:value="${person.getId()}"
@@ -24,7 +24,7 @@
 <div th:if="${book.getPersonId() != null}">
     <p th:text="${bookOwner.getFullName()}"></p>
     <p> has the book now</p>
-    <form th:method="POST" th:action="@{/books/free-book(bookId=${book.getId()})}">
+    <form th:method="PATCH" th:action="@{/books/free-book(bookId=${book.getId()})}">
         <input type="submit" value="free a book" />
     </form>
 </div>

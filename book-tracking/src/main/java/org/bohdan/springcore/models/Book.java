@@ -1,13 +1,26 @@
 package org.bohdan.springcore.models;
 
-public class Book {
-    private int id;
-    private Integer personId;
-    private String name;
-    private String author;
-    private int year;
+import jakarta.validation.constraints.*;
 
-    public Book(int id, Integer personId, String name, String author, int year) {
+public class Book {
+    private Integer id;
+    private Integer personId;
+
+    @NotEmpty(message = "Name can't be empty")
+    @Size(min = 2, max = 100, message = "Book name must be between 2 and 100 characters")
+    private String name;
+
+    @NotEmpty(message = "Author can't be empty")
+    @Size(min = 2, max = 100, message = "Author name must be between 2 and 100 characters")
+    @Pattern(regexp = "[A-ZА-ЯІЇ]\\w+ [A-ZА-ЯІЇ]\\w+", message = "Provide author name in this format: Name Surname")
+    private String author;
+
+    @NotNull(message = "Provide book year")
+    @Min(value = 1, message = "Year can't be zero")
+    @Max(value = 2023, message = "Year can't be greater than 2023")
+    private Integer year;
+
+    public Book(Integer id, Integer personId, String name, String author, Integer year) {
         this.id = id;
         this.personId = personId;
         this.name = name;
@@ -19,11 +32,11 @@ public class Book {
 
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -51,11 +64,11 @@ public class Book {
         this.author = author;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 }
