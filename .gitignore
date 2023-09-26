@@ -160,5 +160,6 @@ buildNumber.properties
 .classpath
 
 book-tracking/src/main/resources/database.properties
+hibernate-core-task/src/main/resources/hibernate.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,java,maven
