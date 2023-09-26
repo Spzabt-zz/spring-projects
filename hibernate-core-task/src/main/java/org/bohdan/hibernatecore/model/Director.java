@@ -53,6 +53,14 @@ public class Director {
         this.age = age;
     }
 
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
+    }
+
     @Override
     public String toString() {
         return "Director{" +
