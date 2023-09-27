@@ -1,5 +1,6 @@
 package org.bohdan.hibernatecore.configuration;
 
+import org.bohdan.hibernatecore.repository.CommonDaoRepoImpl;
 import org.bohdan.hibernatecore.repository.DirectorRepository;
 import org.bohdan.hibernatecore.repository.MovieRepository;
 import org.springframework.context.annotation.Bean;
@@ -21,5 +22,10 @@ public class RepositoryConfiguration {
     @Bean
     public MovieRepository movieRepository() {
         return new MovieRepository(sessionFactoryConfiguration.sessionFactory());
+    }
+
+    @Bean
+    public CommonDaoRepoImpl commonDaoRepo() {
+        return new CommonDaoRepoImpl(sessionFactoryConfiguration.sessionFactory());
     }
 }

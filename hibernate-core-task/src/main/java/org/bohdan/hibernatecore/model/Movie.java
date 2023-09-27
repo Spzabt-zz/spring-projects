@@ -52,6 +52,14 @@ public class Movie {
         this.yearOfProduction = yearOfProduction;
     }
 
+    public Director getDirector() {
+        return director;
+    }
+
+    public void setDirector(Director director) {
+        this.director = director;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +
