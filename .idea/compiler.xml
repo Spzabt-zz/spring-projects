@@ -6,8 +6,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="hibernate-core-task" />
+        <module name="hibernate-core-one-to-one" />
         <module name="book-tracking" />
+        <module name="hibernate-core-one-to-many" />
       </profile>
     </annotationProcessing>
   </component>
