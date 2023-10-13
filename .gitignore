@@ -158,9 +158,11 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+.settings
 
 book-tracking/src/main/resources/database.properties
 hibernate-core-one-to-many/src/main/resources/hibernate.properties
 hibernate-core-one-to-one/src/main/resources/hibernate.properties
+book-tracking-hibernate/src/main/resources/hibernate.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,java,maven

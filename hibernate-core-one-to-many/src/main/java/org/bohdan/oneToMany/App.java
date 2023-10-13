@@ -59,5 +59,7 @@ public class App {
             // 8. Remove directors film
             movieRepository.removeDirectorsFilm(Director.class, director.getId(), 15);
         }
+
+        applicationContext.close();
     }
 }
