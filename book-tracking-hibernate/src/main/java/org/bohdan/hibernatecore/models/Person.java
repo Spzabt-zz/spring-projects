@@ -63,4 +63,12 @@ public class Person {
     public void setBirthYear(Integer birthYear) {
         this.birthYear = birthYear;
     }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
 }

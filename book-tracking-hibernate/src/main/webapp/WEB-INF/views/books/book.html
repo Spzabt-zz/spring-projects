@@ -9,7 +9,7 @@
 <p th:text="${book.getId() + ' - ' + book.getName() + ', ' + book.getAuthor() + ', ' + book.getYear() + ' year'}"></p>
 
 <br/>
-<div th:if="${book.getPersonId() == null}">
+<div th:if="${people}">
     <p>This book is free. Who do you want to give it to?</p>
     <form th:method="PATCH" th:action="@{/books/assign-book(bookId=${book.getId()})}">
         <label for="person">Pick a person: </label>
@@ -21,7 +21,7 @@
         <input type="submit" value="assign a book" />
     </form>
 </div>
-<div th:if="${book.getPersonId() != null}">
+<div th:if="${bookOwner}">
     <p th:text="${bookOwner.getFullName()}"></p>
     <p> has the book now</p>
     <form th:method="PATCH" th:action="@{/books/free-book(bookId=${book.getId()})}">

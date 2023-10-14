@@ -1,6 +1,8 @@
 package org.bohdan.hibernatecore.dao;
 
 import org.bohdan.hibernatecore.models.Book;
+import org.bohdan.hibernatecore.models.Person;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,37 +27,67 @@ public class BookDao {
         return session.createQuery("SELECT b from Book b", Book.class).getResultList();
     }
 
+    @Transactional
     public void addBook(Book book) {
-        /*jdbcTemplate.update("INSERT INTO Book(name, author, year) VALUES(?, ?, ?)",
-                book.getName(), book.getAuthor(), book.getYear());*/
+        Session session = sessionFactory.getCurrentSession();
+
+        session.persist(book);
     }
 
+    @Transactional
     public void updateBook(int id, Book book) {
-        /*jdbcTemplate.update("UPDATE Book SET name=?, author=?, year=? WHERE id=?",
-                book.getName(), book.getAuthor(), book.getYear(), id);*/
+        Session session = sessionFactory.getCurrentSession();
+
+        Book bookToUpdate = session.get(Book.class, id);
+
+        bookToUpdate.setName(book.getName());
+        bookToUpdate.setAuthor(book.getAuthor());
+        bookToUpdate.setYear(book.getYear());
     }
 
+    @Transactional
     public void removeBook(int id) {
-        /*jdbcTemplate.update("DELETE FROM Book WHERE id=?", id);*/
+        Session session = sessionFactory.getCurrentSession();
+
+        session.remove(session.get(Book.class, id));
     }
 
+    @Transactional(readOnly = true)
     public Book getBookById(int id) {
-        return null;
-        /*return jdbcTemplate.queryForObject(
-                "SELECT * FROM Book b WHERE b.id=?", new BeanPropertyRowMapper<>(Book.class), id);*/
+        Session session = sessionFactory.getCurrentSession();
+
+        return session.get(Book.class, id);
     }
 
+    @Transactional(readOnly = true)
     public List<Book> getPersonBooks(int personId) {
-        return null;
-        /*return jdbcTemplate.query("SELECT b.name, b.author, b.year FROM Book b WHERE b.person_id = ?",
-                new BeanPropertyRowMapper<>(Book.class), personId);*/
+        Session session = sessionFactory.getCurrentSession();
+
+        Person person = session.get(Person.class, personId);
+
+        Hibernate.initialize(person.getBooks());
+
+        return person.getBooks();
     }
 
+    @Transactional
     public void assignBookToReader(int readerId, int bookId) {
-        /*jdbcTemplate.update("UPDATE Book SET person_id=? WHERE id=?", readerId, bookId);*/
+        Session session = sessionFactory.getCurrentSession();
+
+        Book book = session.get(Book.class, bookId);
+        Person person = session.get(Person.class, readerId);
+
+        book.setPerson(person);
+        person.getBooks().add(book);
     }
 
+    @Transactional
     public void freeBook(int bookId) {
-        /*jdbcTemplate.update("UPDATE Book SET person_id=null WHERE id=?", bookId);*/
+        Session session = sessionFactory.getCurrentSession();
+
+        Book book = session.get(Book.class, bookId);
+
+        book.getPerson().getBooks().remove(book);
+        book.setPerson(null);
     }
 }

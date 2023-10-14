@@ -73,4 +73,12 @@ public class Book {
     public void setYear(Integer year) {
         this.year = year;
     }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
 }

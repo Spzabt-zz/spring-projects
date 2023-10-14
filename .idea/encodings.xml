@@ -3,6 +3,8 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/book-tracking-hibernate/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/book-tracking-hibernate/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hibernate-core-many-to-many/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hibernate-core-many-to-many/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hibernate-core-one-to-many/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hibernate-core-one-to-many/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hibernate-core-one-to-one/src/main/java" charset="UTF-8" />

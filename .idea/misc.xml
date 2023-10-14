@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/hibernate-core-one-to-one/pom.xml" />
         <option value="$PROJECT_DIR$/hibernate-core-one-to-many/pom.xml" />
         <option value="$PROJECT_DIR$/book-tracking-hibernate/pom.xml" />
+        <option value="$PROJECT_DIR$/hibernate-core-many-to-many/pom.xml" />
       </list>
     </option>
   </component>
