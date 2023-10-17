@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="hibernate-core-one-to-one" />
         <module name="hibernate-core-many-to-many" />
+        <module name="book-tracking-jpa" />
         <module name="book-tracking-hibernate" />
         <module name="hibernate-core-one-to-many" />
         <module name="book-tracking" />

@@ -1,9 +1,9 @@
 package org.bohdan.hibernatecore.controllers;
 
 import jakarta.validation.Valid;
-import org.bohdan.hibernatecore.dao.BookDao;
-import org.bohdan.hibernatecore.dao.PersonDao;
 import org.bohdan.hibernatecore.models.Person;
+import org.bohdan.hibernatecore.services.BookService;
+import org.bohdan.hibernatecore.services.PeopleService;
 import org.bohdan.hibernatecore.validator.PersonValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,20 +15,20 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/people")
 public class PeopleController {
 
-    private final PersonDao personDao;
-    private final BookDao bookDao;
+    private final PeopleService peopleService;
+    private final BookService bookService;
     private final PersonValidator personValidator;
 
     @Autowired
-    public PeopleController(PersonDao personDao, BookDao bookDao, PersonValidator personValidator) {
-        this.personDao = personDao;
-        this.bookDao = bookDao;
+    public PeopleController(PeopleService peopleService, BookService bookService, PersonValidator personValidator) {
+        this.peopleService = peopleService;
+        this.bookService = bookService;
         this.personValidator = personValidator;
     }
 
     @GetMapping
     public String getPeopleList(Model model) {
-        model.addAttribute("people", personDao.getPeopleList());
+        model.addAttribute("people", peopleService.getPeopleList());
         return "people/list";
     }
 
@@ -44,20 +44,20 @@ public class PeopleController {
         if (bindingResult.hasErrors())
             return "people/new";
 
-        personDao.addPerson(person);
+        peopleService.addPerson(person);
         return "redirect:/people";
     }
 
     @GetMapping("{id}")
     public String showPersonProfile(@PathVariable(name = "id") Integer id, Model model) {
-        model.addAttribute("person", personDao.getPersonById(id));
-        model.addAttribute("books", bookDao.getPersonBooks(id));
+        model.addAttribute("person", peopleService.getPersonById(id));
+        model.addAttribute("books", bookService.getPersonBooks(id));
         return "people/profile";
     }
 
     @GetMapping("{id}/edit")
     public String showEditProfilePage(@PathVariable(name = "id") Integer id, Model model) {
-        model.addAttribute("person", personDao.getPersonById(id));
+        model.addAttribute("person", peopleService.getPersonById(id));
         return "people/edit";
     }
 
@@ -68,13 +68,13 @@ public class PeopleController {
         if (bindingResult.hasErrors())
             return "people/edit";
 
-        personDao.editPerson(person);
+        peopleService.editPerson(person);
         return "redirect:/people/" + person.getId();
     }
 
     @DeleteMapping("{id}")
     public String deletePerson(@PathVariable(name = "id") Integer id) {
-        personDao.deletePerson(id);
+        peopleService.deletePerson(id);
         return "redirect:/people";
     }
 }

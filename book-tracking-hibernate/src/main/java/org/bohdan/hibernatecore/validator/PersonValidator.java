@@ -9,6 +9,7 @@ import org.springframework.validation.Validator;
 
 @Component
 public class PersonValidator implements Validator {
+
     private final PersonDao personDao;
 
     @Autowired

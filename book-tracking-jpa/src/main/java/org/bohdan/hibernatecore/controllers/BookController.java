@@ -1,10 +1,11 @@
 package org.bohdan.hibernatecore.controllers;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
-import org.bohdan.hibernatecore.dao.BookDao;
-import org.bohdan.hibernatecore.dao.PersonDao;
 import org.bohdan.hibernatecore.models.Book;
 import org.bohdan.hibernatecore.models.Person;
+import org.bohdan.hibernatecore.services.BookService;
+import org.bohdan.hibernatecore.services.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,18 +18,18 @@ import java.util.Optional;
 @RequestMapping("/books")
 public class BookController {
 
-    private final BookDao bookDao;
-    private final PersonDao personDao;
+    private final BookService bookService;
+    private final PeopleService peopleService;
 
     @Autowired
-    public BookController(BookDao bookDao, PersonDao personDao) {
-        this.bookDao = bookDao;
-        this.personDao = personDao;
+    public BookController(BookService bookService, PeopleService peopleService) {
+        this.bookService = bookService;
+        this.peopleService = peopleService;
     }
 
     @GetMapping
     public String bookList(Model model) {
-        model.addAttribute("books", bookDao.getBookList());
+        model.addAttribute("books", bookService.getBookList());
         return "books/list";
     }
 
@@ -43,27 +44,27 @@ public class BookController {
         if (bindingResult.hasErrors())
             return "books/new";
 
-        bookDao.addBook(book);
+        bookService.addBook(book);
         return "redirect:/books";
     }
 
     @GetMapping("{id}")
     public String getBookPage(@PathVariable(name = "id") Integer id, Model model, @ModelAttribute("person") Person person) {
-        model.addAttribute("book", bookDao.getBookById(id));
+        model.addAttribute("book", bookService.getBookById(id));
 
-        Optional<Person> personByBookId = personDao.getPersonByBookId(id);
+        Optional<Person> personByBookId = peopleService.getPersonByBookId(id);
 
         if (personByBookId.isPresent())
             model.addAttribute("bookOwner", personByBookId.get());
         else
-            model.addAttribute("people", personDao.getPeopleList());
+            model.addAttribute("people", peopleService.getPeopleList());
 
         return "books/book";
     }
 
     @GetMapping("{id}/edit")
     public String updateBookPage(@PathVariable(name = "id") Integer id, Model model) {
-        model.addAttribute("book", bookDao.getBookById(id));
+        model.addAttribute("book", bookService.getBookById(id));
         return "books/edit";
     }
 
@@ -76,27 +77,28 @@ public class BookController {
         if (bindingResult.hasErrors())
             return "books/edit";
 
-        bookDao.updateBook(id, book);
+        bookService.updateBook(id, book);
         return "redirect:/books/" + id;
     }
 
     @DeleteMapping("{id}")
     public String deleteBook(@PathVariable(name = "id") Integer id) {
-        bookDao.removeBook(id);
+        bookService.removeBook(id);
         return "redirect:/books";
     }
 
     @PatchMapping("assign-book")
-    public String assignBookToPerson(@ModelAttribute("person") Person person, @RequestParam("bookId") Integer bookId) {
-        bookDao.assignBookToReader(person.getId(), bookId);
+    public String assignBookToPerson(@ModelAttribute("person") Person person, @RequestParam("bookId") Integer bookId)
+            throws EntityNotFoundException {
+        bookService.assignBookToReader(person.getId(), bookId);
         return "redirect:/books/" + bookId;
     }
 
     @PatchMapping("free-book")
     public String freeBook(
             @ModelAttribute("person") Person person,
-            @RequestParam("bookId") Integer bookId) {
-        bookDao.freeBook(bookId);
+            @RequestParam("bookId") Integer bookId) throws EntityNotFoundException {
+        bookService.freeBook(bookId);
         return "redirect:/books/" + bookId;
     }
 }
