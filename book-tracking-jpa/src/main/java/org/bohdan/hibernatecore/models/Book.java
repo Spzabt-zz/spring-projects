@@ -3,6 +3,8 @@ package org.bohdan.hibernatecore.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "Book")
 public class Book {
@@ -27,6 +29,13 @@ public class Book {
     @Max(value = 2023, message = "Year can't be greater than 2023")
     @Column(name = "year")
     private Integer year;
+
+    @Column(name = "taken_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date takenAt;
+
+    @Transient
+    private boolean isOverdue;
 
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
@@ -80,5 +89,21 @@ public class Book {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public Date getTakenAt() {
+        return takenAt;
+    }
+
+    public void setTakenAt(Date takenAt) {
+        this.takenAt = takenAt;
+    }
+
+    public boolean isOverdue() {
+        return isOverdue;
+    }
+
+    public void setOverdue(boolean overdue) {
+        isOverdue = overdue;
     }
 }

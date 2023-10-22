@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -28,8 +30,15 @@ public class BookController {
     }
 
     @GetMapping
-    public String bookList(Model model) {
-        model.addAttribute("books", bookService.getBookList());
+    public String bookList(@RequestParam(name = "page", required = false) Integer page,
+                           @RequestParam(name = "books_per_page", required = false) Integer size,
+                           @RequestParam(name = "sort_by_year", required = false) boolean sorted,
+                           Model model) {
+        if (page == null || size == null)
+            model.addAttribute("books", bookService.getSortedBookList(sorted));
+        else
+            model.addAttribute("books", bookService.getBookList(page, size, sorted));
+
         return "books/list";
     }
 
@@ -100,5 +109,18 @@ public class BookController {
             @RequestParam("bookId") Integer bookId) throws EntityNotFoundException {
         bookService.freeBook(bookId);
         return "redirect:/books/" + bookId;
+    }
+
+    @GetMapping("search")
+    public String searchBookPage(@RequestParam(name = "book_name", required = false) String bookName, Model model) {
+        List<Book> booksByName = new ArrayList<>();
+
+        if (bookName != null)
+            if (!bookName.isBlank())
+                booksByName = bookService.searchBookByName(bookName);
+
+        model.addAttribute("books", booksByName);
+
+        return "books/search";
     }
 }

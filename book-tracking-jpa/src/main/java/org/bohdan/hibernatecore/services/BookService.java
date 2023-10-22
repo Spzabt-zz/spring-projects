@@ -7,9 +7,13 @@ import org.bohdan.hibernatecore.repositories.BookRepository;
 import org.bohdan.hibernatecore.repositories.PersonRepository;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,8 +29,19 @@ public class BookService {
         this.personRepository = personRepository;
     }
 
-    public List<Book> getBookList() {
-        return bookRepository.findAll();
+    public Page<Book> getBookList(Integer pageNumber, Integer size, boolean sorted) {
+        if (sorted) {
+            return bookRepository.findAll(PageRequest
+                    .of(pageNumber, size, Sort.by("year")));
+        } else
+            return bookRepository.findAll(PageRequest.of(pageNumber, size));
+    }
+
+    public List<Book> getSortedBookList(boolean sorted) {
+        if (sorted) {
+            return bookRepository.findAll(Sort.by("year"));
+        } else
+            return bookRepository.findAll();
     }
 
     @Transactional
@@ -55,7 +70,17 @@ public class BookService {
 
         Hibernate.initialize(person.getBooks());
 
-        return person.getBooks();
+        Date currentTime = new Date();
+        List<Book> books = person.getBooks();
+        for (Book book : books) {
+            long diff = currentTime.getTime() - book.getTakenAt().getTime();
+            long millisecondsInADay = 24 * 60 * 60 * 1000; // 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
+
+            long diffInDays = diff / millisecondsInADay;
+            book.setOverdue(diffInDays > 10);
+        }
+
+        return books;
     }
 
     @Transactional
@@ -64,6 +89,9 @@ public class BookService {
         Person person = personRepository.findById(readerId).orElseThrow(() -> new EntityNotFoundException("Person not found"));
 
         book.setPerson(person);
+
+        book.setTakenAt(new Date());
+
         person.getBooks().add(book);
     }
 
@@ -76,5 +104,9 @@ public class BookService {
             person.getBooks().remove(book);
             book.setPerson(null);
         }
+    }
+
+    public List<Book> searchBookByName(String bookName) {
+        return bookRepository.findByNameStartingWith(bookName);
     }
 }
