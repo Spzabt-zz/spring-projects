@@ -2,10 +2,13 @@ package org.bohdan.springboot.booktracking2boot.controllers;
 
 import jakarta.validation.Valid;
 import org.bohdan.springboot.booktracking2boot.models.Person;
+import org.bohdan.springboot.booktracking2boot.security.PersonDetails;
 import org.bohdan.springboot.booktracking2boot.services.BookService;
 import org.bohdan.springboot.booktracking2boot.services.PeopleService;
 import org.bohdan.springboot.booktracking2boot.validator.PersonValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,6 +32,11 @@ public class PeopleController {
     @GetMapping
     public String getPeopleList(Model model) {
         model.addAttribute("people", peopleService.getPeopleList());
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        System.out.println(personDetails.person());
+
         return "people/list";
     }
 

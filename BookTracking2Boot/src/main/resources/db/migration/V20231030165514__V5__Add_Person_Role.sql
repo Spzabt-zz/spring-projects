@@ -1,0 +1,1 @@
+ALTER TABLE Person ADD COLUMN role varchar(100) NOT NULL;

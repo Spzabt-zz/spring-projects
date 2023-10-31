@@ -2,6 +2,7 @@ package org.bohdan.springboot.booktracking2boot.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.bohdan.springboot.booktracking2boot.models.enums.Role;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -40,6 +41,14 @@ public class Person {
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
+
+    @Column(name = "password")
+    @NotEmpty(message = "Please enter password")
+    @Size(min = 4, max = 100, message = "Password must be between 4 and 100 characters")
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(mappedBy = "person")
     private List<Book> books;
@@ -99,5 +108,34 @@ public class Person {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", birthYear=" + birthYear +
+                ", dateOfBirth=" + dateOfBirth +
+                ", createdAt=" + createdAt +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

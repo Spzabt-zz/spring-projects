@@ -6,6 +6,7 @@ import org.bohdan.springboot.booktracking2boot.models.Person;
 import org.bohdan.springboot.booktracking2boot.repositories.BookRepository;
 import org.bohdan.springboot.booktracking2boot.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,6 +57,7 @@ public class PeopleService {
         personRepository.save(person);
     }
 
+    @PreAuthorize("hasRole(T(org.bohdan.springboot.booktracking2boot.models.enums.Role).ADMIN.toString())")
     @Transactional
     public void deletePerson(int id) {
         personRepository.deleteById(id);

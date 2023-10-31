@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,6 +56,10 @@ public class BookService {
         bookRepository.save(book);
     }
 
+    @PreAuthorize(
+            "hasRole(T(org.bohdan.springboot.booktracking2boot.models.enums.Role).ADMIN.toString()) " +
+                    "or hasRole(T(org.bohdan.springboot.booktracking2boot.models.enums.Role).LIBRARIAN.toString())"
+    )
     @Transactional
     public void removeBook(int id) {
         bookRepository.deleteById(id);

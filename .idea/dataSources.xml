@@ -29,5 +29,12 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/library_db_jpa</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="boot_library_db@localhost" uuid="070ae9a2-fc28-43a9-af22-72f619870fd3">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/boot_library_db</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
