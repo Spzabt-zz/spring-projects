@@ -2,12 +2,15 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="book-tracking-jpa" />
         <module name="book-tracking-hibernate" />
+        <module name="SensorAPI" />
+        <module name="SensorClient" />
         <module name="book-tracking" />
         <module name="hibernate-core-one-to-one" />
         <module name="hibernate-core-many-to-many" />
@@ -19,6 +22,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="BookTracking2Boot" options="-parameters" />
+      <module name="SensorAPI" options="-parameters" />
     </option>
   </component>
 </project>

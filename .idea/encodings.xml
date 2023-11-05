@@ -2,6 +2,9 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/BookTracking2Boot/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SensorAPI/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SensorClient/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SensorClient/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/book-tracking-hibernate/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/book-tracking-hibernate/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/book-tracking-jpa/src/main/java" charset="UTF-8" />
